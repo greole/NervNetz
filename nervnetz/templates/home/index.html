@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Relation{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="target_id">Target</label>
+    {# <input name="target_id" id="target_id" value="{{ request.form['target_id'] }}" required> #}
+    <select name="target_id">
+        {% for x in targets %}
+            <option value="{{x.username}}">{{x.username}}</option>
+        {% endfor %}
+    </select>
+    <label for="value">value</label>
+    <select name="value">
+        {% for x in range(10) %}
+        <option value="{{x}}">{{x}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+  </form>
+
+  {% for post in posts %}
+    <article class="post">
+        <div>
+{{ post['created'].strftime('%Y-%m-%d') }}:
+            {{ usernames[post['author_id']] }}
+            {{ usernames[post['target_id']] }}
+            {{ post['value'] }}
+        </div>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
